@@ -1,0 +1,60 @@
+.statistics {
+  margin: auto;
+}
+
+.currentGame {
+  width: 90%;
+  height: 150px;
+  background-color: beige;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+.currentTitle {
+  width: 95%;
+}
+
+.currentTableContainer {
+  width: 95%;
+}
+
+.table {
+  width: 100%;
+  border: solid 1px rgb(128, 128, 128);
+  border-collapse: collapse;
+}
+
+.table th {
+  font-size: 15px;
+  border: solid 2px rgb(172, 172, 172);
+}
+
+.gameHistory {
+  width: 90%;
+  min-height: 150px;
+  background-color: bisque;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 10px;
+}
+
+.historyTitle {
+  width: 95%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.historyTitle button {
+  height: 40px;
+}
+
+.historyTalbeContainer {
+  width: 95%;
+}

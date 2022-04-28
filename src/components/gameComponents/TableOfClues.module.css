@@ -1,0 +1,46 @@
+.container {
+  width: 90%;
+  border: solid 1px green;
+}
+
+.category {
+  width: 100%;
+  height: 50px;
+  border: solid 1px red;
+  border-radius: 5px;
+  box-sizing: border-box;
+  margin-bottom: 5px;
+  display: flex;
+  overflow: hidden;
+}
+
+.categoryName {
+  width: 25%;
+  height: 100%;
+  padding: auto 5px;
+  background-color: antiquewhite;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+}
+
+.categoryClues {
+  width: 75%;
+  height: 100%;
+  background-color: rgb(255, 0, 187);
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  align-items: center;
+  justify-items: center;
+}
+
+.clue {
+  width: 100px;
+  height: 40px;
+  background-color: green;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
