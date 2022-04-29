@@ -1,17 +1,20 @@
 import classes from "./TableOfClues.module.css";
 import { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Modal, Button } from "antd";
+import { Modal } from "antd";
 import { useDispatch } from "react-redux";
-import { checkClue } from "../../features/game/cluesSlice";
-function TableOfClues({ clues }) {
-  console.log(clues);
 
+// Imported actions
+import { checkClue, markAsTrueIfTrue } from "../../features/game/cluesSlice";
+import { updateStatistics } from "../../features/statistics/statisticSlice";
+function TableOfClues({ clues, setResponseStatus, setResponseScore }) {
   const dispatch = useDispatch();
 
   const [isModalVisible, setModalVisible] = useState(false);
   const [selectedClue, setSelectedClue] = useState([0, 0]);
   const [inputText, setInputText] = useState("");
+  const [currentClueAnswer, setCurrentClueAnswer] = useState("");
+  const [currentClueValue, setCurrentClueValue] = useState(0);
   const [timer, setTimer] = useState(60);
 
   useEffect(() => {
@@ -23,17 +26,9 @@ function TableOfClues({ clues }) {
     }
     if (timer === 0) {
       hideModal();
+      submitHandler();
     }
   }, [timer, isModalVisible]);
-
-  function showModal() {
-    setModalVisible(true);
-    setTimer(60);
-  }
-
-  function hideModal() {
-    setModalVisible(false);
-  }
 
   const displayClues = (clues, classes) => {
     // clues are array wihin which contains 5 arrays
@@ -50,16 +45,22 @@ function TableOfClues({ clues }) {
                 key={clue.id}
                 id={`${index}_${clue.id}`}
                 className={classes.clue}
-                onClick={(e) => {
+                onClick={() => {
                   setSelectedClue([index, i]);
+                  setCurrentClueAnswer(clue.answer);
+                  setCurrentClueValue(clue.value);
                   showModal();
-
-                  // setTimeout(() => {
-                  //   hideModal();
-                  // }, 3000);
                 }}
               >
-                {clue.isChecked ? "checked" : clue.value}
+                {clue.isChecked ? (
+                  clue.isTrue ? (
+                    <div className={classes.trueAnswer}>True</div>
+                  ) : (
+                    <div className={classes.falseAnswer}>False</div>
+                  )
+                ) : (
+                  clue.value
+                )}
               </div>
             ))}
           </div>
@@ -68,6 +69,40 @@ function TableOfClues({ clues }) {
     });
   };
 
+  // Handle Clues actions
+
+  function showModal() {
+    setModalVisible(true);
+    setTimer(60);
+  }
+
+  function hideModal() {
+    setModalVisible(false);
+  }
+
+  function submitHandler() {
+    dispatch(checkClue(selectedClue));
+    console.log(currentClueAnswer);
+    currentClueAnswer === inputText
+      ? dispatch(markAsTrueIfTrue([...selectedClue, true]))
+      : dispatch(markAsTrueIfTrue([...selectedClue, false]));
+    let scoreValue = 0;
+    currentClueAnswer === inputText
+      ? (scoreValue += currentClueValue)
+      : (scoreValue -= currentClueValue);
+    if (currentClueAnswer === inputText) {
+      setResponseStatus("Correct answers");
+      setResponseScore(currentClueValue);
+    } else {
+      setResponseStatus("Wrong answer");
+      setResponseScore(-currentClueValue);
+    }
+
+    dispatch(updateStatistics(scoreValue));
+    hideModal();
+    setInputText("");
+  }
+
   return (
     <>
       <div className={classes.container}>{displayClues(clues, classes)}</div>
@@ -75,13 +110,17 @@ function TableOfClues({ clues }) {
         title={clues[selectedClue[0]][selectedClue[1]].question}
         visible={isModalVisible}
         onOk={() => {
-          dispatch(checkClue(selectedClue));
-          hideModal();
+          submitHandler();
         }}
         onCancel={hideModal}
       >
         <p>Answer: {clues[selectedClue[0]][selectedClue[1]].answer}</p>
-        <form>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            submitHandler();
+          }}
+        >
           <input
             type="text"
             value={inputText}

@@ -1,6 +1,7 @@
 import { useFormik } from "formik";
 import classes from "./InputName.module.css";
 import { login } from "../features/game/loggedSlice";
+import { writeName } from "../features/statistics/nameSlice";
 import { useDispatch } from "react-redux";
 
 const validate = (values) => {
@@ -26,6 +27,7 @@ function InputName() {
     onSubmit: (values) => {
       console.log(values.name);
       dispatch(login());
+      dispatch(writeName(values.name));
     },
   });
   return (

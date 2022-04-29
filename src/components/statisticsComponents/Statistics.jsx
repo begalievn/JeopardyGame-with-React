@@ -1,14 +1,43 @@
 import React from "react";
 import classes from "./Statistics.module.css";
 import { useSelector, useDispatch } from "react-redux";
-import {} from "../../features/statistics/statisticSlice";
-import { clearHistory } from "../../features/statistics/historySlice";
+
+import { useNavigate } from "react-router-dom";
+
+import {
+  clearStatistics,
+  addFinishTime,
+} from "../../features/statistics/statisticSlice";
+import { renewClues } from "../../features/game/cluesSlice";
+import { finishGame } from "../../features/game/starterSlice";
+
+import {
+  addHistory,
+  clearHistory,
+} from "../../features/statistics/historySlice";
 
 function Statistics() {
   const statistics = useSelector((state) => state.statistic.value);
   const history = useSelector((state) => state.history.value);
+  const starter = useSelector((state) => state.starter.value);
+  const name = useSelector((state) => state.name.value);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  function finishHandler() {
+    dispatch(addFinishTime());
+    const date = new Date();
+    let finishTime = `${date.getDate()}.${
+      date.getMonth() < 10 ? "0" + date.getMonth() : date.getMonth()
+    }.${date.getFullYear()}, ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+    dispatch(addHistory({ ...statistics, finishTime: finishTime }));
+    setTimeout(() => {
+      dispatch(renewClues());
+      dispatch(clearStatistics());
+      dispatch(finishGame());
+    }, 1000);
+  }
 
   return (
     <div className={classes.statistics}>
@@ -20,6 +49,7 @@ function Statistics() {
           <table className={classes.table}>
             <thead className={classes.thead}>
               <tr>
+                <th>Имя</th>
                 <th>Кол-во вопросов</th>
                 <th>Верных ответов</th>
                 <th>Неверных ответов</th>
@@ -29,19 +59,36 @@ function Statistics() {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>{statistics.questionsQuantity}</td>
-                <td>{statistics.trueAnswers}</td>
-                <td>{statistics.wrongAnswers}</td>
-                <td>{statistics.scores}</td>
-                <td>{statistics.creationTime}</td>
-                <td>
-                  <div className={classes.currentGameButtonsContainer}>
-                    <button>Continue</button>
-                    <button>Finish</button>
-                  </div>
-                </td>
-              </tr>
+              {!starter ? null : (
+                <tr>
+                  <td>{name}</td>
+                  <td>{statistics.questionsQuantity}</td>
+                  <td>{statistics.trueAnswers}</td>
+                  <td>{statistics.wrongAnswers}</td>
+                  <td>{statistics.scores}</td>
+                  <td>{statistics.creationTime}</td>
+                  <td>
+                    <div className={classes.currentGameButtonsContainer}>
+                      <button
+                        onClick={() => {
+                          navigate("/");
+                        }}
+                        className={classes.continueButton}
+                      >
+                        Continue
+                      </button>
+                      <button
+                        onClick={() => {
+                          finishHandler();
+                        }}
+                        className={classes.finishButton}
+                      >
+                        Finish
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
@@ -62,6 +109,7 @@ function Statistics() {
           <table className={classes.table}>
             <thead>
               <tr>
+                <th>Имя</th>
                 <th>Кол-во вопросов</th>
                 <th>Верных ответов</th>
                 <th>Неверных ответов</th>
@@ -71,15 +119,16 @@ function Statistics() {
               </tr>
             </thead>
             <tbody>
-              {history.map((statistics) => {
+              {history.map((stata) => {
                 return (
-                  <tr>
-                    <td>{statistics.questionsQuantity}</td>
-                    <td>{statistics.trueAnswers}</td>
-                    <td>{statistics.wrongAnswers}</td>
-                    <td>{statistics.scores}</td>
-                    <td>{statistics.creationTime}</td>
-                    <td>{statistics.finishTime}</td>
+                  <tr key={stata?.creationTime}>
+                    <td>{name}</td>
+                    <td>{stata?.questionsQuantity}</td>
+                    <td>{stata?.trueAnswers}</td>
+                    <td>{stata?.wrongAnswers}</td>
+                    <td>{stata?.scores}</td>
+                    <td>{stata?.creationTime}</td>
+                    <td>{stata?.finishTime}</td>
                   </tr>
                 );
               })}

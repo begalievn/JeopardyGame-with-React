@@ -8,6 +8,7 @@ export const historySlice = createSlice({
   reducers: {
     addHistory: (state, action) => {
       state.value.push(action.payload);
+      console.log(action.payload);
     },
     clearHistory: (state) => {
       state.value = [];

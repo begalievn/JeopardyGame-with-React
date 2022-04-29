@@ -7,24 +7,26 @@ import { useSelector, useDispatch } from "react-redux";
 
 // Imported actions
 import {
-  updateStatistics,
   addCreationTime,
   clearStatistics,
   addFinishTime,
 } from "../../features/statistics/statisticSlice";
 import { setInitialState, renewClues } from "../../features/game/cluesSlice";
 import { startGame, finishGame } from "../../features/game/starterSlice";
-import { login } from "../../features/game/loggedSlice";
+
 import { addHistory } from "../../features/statistics/historySlice";
 
 // Imported Components
 import InputName from "../InputName";
 
 function Game() {
-  const statistics = useSelector((state) => state.statistic.value);
+  const statistic = useSelector((state) => state.statistic.value);
   const clues = useSelector((state) => state.clues.value);
   const starter = useSelector((state) => state.starter.value);
   const logged = useSelector((state) => state.logged.value);
+
+  const [responseStatus, setResponseStatus] = useState("Choose the clue");
+  const [responseScore, setResponseScore] = useState(0);
 
   const dispatch = useDispatch();
 
@@ -36,7 +38,19 @@ function Game() {
     }
   }, [clues.length]);
 
-  console.log(clues);
+  function finishHandler() {
+    dispatch(addFinishTime());
+    const date = new Date();
+    let finishTime = `${date.getDate()}.${
+      date.getMonth() < 10 ? "0" + date.getMonth() : date.getMonth()
+    }.${date.getFullYear()}, ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+    dispatch(addHistory({ ...statistic, finishTime: finishTime }));
+    setTimeout(() => {
+      dispatch(renewClues());
+      dispatch(clearStatistics());
+      dispatch(finishGame());
+    }, 1000);
+  }
 
   return (
     <>
@@ -57,31 +71,36 @@ function Game() {
       ) : (
         <div className={classes.game}>
           {clues.length > 0 ? (
-            <TableOfClues clues={clues} />
+            <TableOfClues
+              clues={clues}
+              setResponseStatus={setResponseStatus}
+              setResponseScore={setResponseScore}
+            />
           ) : (
             <p>Loading...</p>
           )}
 
           <div className={classes.gameStatus}>
-            <div className={classes.statusResponse}>
-              <p className={classes.statusText}>Answered status</p>
-              <p className={classes.statusScore}>score</p>
-            </div>
-            <div className={classes.scoreDiv}>Score: {statistics.scores}</div>
+            {responseScore === 0 ? null : responseScore > 0 ? (
+              <div className={classes.statusResponseCorrect}>
+                <p className={classes.statusText}>{responseStatus}</p>
+                <p className={classes.statusScore}>{responseScore}</p>
+              </div>
+            ) : (
+              <div className={classes.statusResponseWrong}>
+                <p className={classes.statusText}>{responseStatus}</p>
+                <p className={classes.statusScore}>{responseScore}</p>
+              </div>
+            )}
+
+            <div className={classes.scoreDiv}>Score: {statistic.scores}</div>
           </div>
           <div className={classes.buttonContainer}>
             <button
               onClick={() => {
-                // *** Change below line later to finished time
-                dispatch(addFinishTime());
-                console.log(statistics);
-                dispatch(addHistory(statistics));
-                dispatch(renewClues());
-                dispatch(clearStatistics());
-                dispatch(finishGame());
-                console.log("button clicked");
-                console.log(clues);
+                finishHandler();
               }}
+              className={classes.finishButton}
             >
               Finish
             </button>

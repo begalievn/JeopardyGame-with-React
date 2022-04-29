@@ -16,20 +16,38 @@
   align-items: center;
 }
 
-.statusResponse p {
+.statusResponseCorrect p {
   margin: 0 10px;
   padding: 0;
 }
 
-.statusResponse {
+.statusResponseWrong p {
+  margin: 0 10px;
+  padding: 0;
+}
+
+.statusResponseCorrect {
   width: 65%;
   height: 40px;
   border-radius: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: aliceblue;
+  background-color: rgb(104, 134, 86);
   border: outset 1.2px gray;
+  color: white;
+}
+
+.statusResponseWrong {
+  width: 65%;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgb(134, 66, 74);
+  border: outset 1.2px gray;
+  color: white;
 }
 
 .scoreDiv {
@@ -71,4 +89,11 @@
   height: 40px;
   border: outset 1px rgb(106, 106, 131);
   border-radius: 10px;
+  background: rgb(39, 108, 131);
+  color: white;
+}
+
+.finishButton {
+  background-color: rgb(103, 36, 36);
+  color: white;
 }

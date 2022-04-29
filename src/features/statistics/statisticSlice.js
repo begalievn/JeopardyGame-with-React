@@ -20,7 +20,9 @@ export const statisticSlice = createSlice({
       // increase question quantity
       state.value.questionsQuantity++;
       // if true
-      action.payload ? state.value.trueAnswers++ : state.value.wrongAnswers++;
+      action.payload > 0
+        ? state.value.trueAnswers++
+        : state.value.wrongAnswers++;
     },
     addCreationTime: (state) => {
       let date = new Date();
@@ -33,6 +35,7 @@ export const statisticSlice = createSlice({
       state.value.finishTime = `${date.getDate()}.${
         date.getMonth() < 10 ? "0" + date.getMonth() : date.getMonth()
       }.${date.getFullYear()}, ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+      console.log(state.value.finishTime);
     },
     clearStatistics: (state) => {
       state.value = {

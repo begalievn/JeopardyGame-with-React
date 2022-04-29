@@ -93,3 +93,13 @@
   background-color: rgb(152, 73, 73);
   color: white;
 }
+
+.continueButton {
+  background-color: rgb(34, 98, 34);
+  color: white;
+}
+
+.finishButton {
+  background-color: rgb(103, 36, 36);
+  color: white;
+}

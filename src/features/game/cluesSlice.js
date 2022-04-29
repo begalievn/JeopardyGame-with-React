@@ -12,6 +12,10 @@ export const cluesSlice = createSlice({
     checkClue: (state, action) => {
       state.value[action.payload[0]][action.payload[1]].isChecked = true;
     },
+    markAsTrueIfTrue: (state, action) => {
+      state.value[action.payload[0]][action.payload[1]].isTrue =
+        action.payload[2];
+    },
     renewClues: (state) => {
       state.value = [];
     },
@@ -19,6 +23,7 @@ export const cluesSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setInitialState, checkClue, renewClues } = cluesSlice.actions;
+export const { setInitialState, checkClue, renewClues, markAsTrueIfTrue } =
+  cluesSlice.actions;
 
 export default cluesSlice.reducer;
