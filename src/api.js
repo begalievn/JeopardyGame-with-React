@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = `http://jservice.io/`;
+const BASE_URL = `https://jservice.io/`;
 
 export const getClues = () => {
   return axios
