@@ -1,14 +1,17 @@
 .formContainer {
-  width: 500px;
-  height: 250px;
-  margin: auto;
-  margin-top: 15%;
+  width: 100%;
+  height: 95vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .form {
-  width: 100%;
-  height: 100%;
-  background-color: rgb(201, 249, 169);
+  width: 50%;
+  height: 30vh;
+  background-color: rgb(114, 152, 157);
+  border-radius: 10px;
+  box-shadow: 10px 5px 5px rgb(106, 131, 142);
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -19,12 +22,15 @@
 label,
 button {
   display: block;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-size: 23px;
   margin-bottom: 15px;
 }
 
 .input {
   width: 100%;
+  border-radius: 10px;
+  border-style: none;
 }
 
 .inputContainer {
@@ -42,4 +48,7 @@ button {
 
 .button {
   width: 80%;
+  border-radius: 10px;
+  color: white;
+  background-color: rgb(88, 98, 103);
 }

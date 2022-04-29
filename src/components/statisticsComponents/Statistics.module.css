@@ -4,8 +4,8 @@
 
 .currentGame {
   width: 90%;
-  height: 150px;
-  background-color: beige;
+  min-height: 150px;
+  background-color: rgb(146, 169, 172);
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -16,6 +16,11 @@
 
 .currentTitle {
   width: 95%;
+  margin-top: 5px;
+}
+
+.currentTitle h5 {
+  color: rgb(230, 230, 230);
 }
 
 .currentTableContainer {
@@ -30,13 +35,31 @@
 
 .table th {
   font-size: 15px;
-  border: solid 2px rgb(172, 172, 172);
+  border: solid 2px black;
+  text-align: center;
+}
+
+.table td {
+  border-right: solid 1px gray;
+  text-align: center;
+}
+
+.currentGameButtonsContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.currentGameButtonsContainer button {
+  font-size: 15px;
+  border-style: inset 1px rgb(91, 91, 95);
+  border-radius: 10px;
+  margin-top: 2px;
 }
 
 .gameHistory {
   width: 90%;
   min-height: 150px;
-  background-color: bisque;
+  background-color: rgb(191, 193, 137);
   margin: 20px auto;
   display: flex;
   flex-direction: column;
@@ -49,12 +72,24 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: 5px;
 }
 
-.historyTitle button {
-  height: 40px;
+.historyTitle h5 {
+  color: white;
 }
 
 .historyTalbeContainer {
   width: 95%;
+  margin-top: 10px;
+}
+
+.button {
+  width: 130px;
+  height: 30px;
+  font-size: 15px;
+  border: inset 1.5px gray;
+  border-radius: 10px;
+  background-color: rgb(152, 73, 73);
+  color: white;
 }

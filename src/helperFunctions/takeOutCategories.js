@@ -5,30 +5,40 @@ export const takeOutCategories = (arr) => {
     .filter((obj) => obj.category_id === 6)
     .map((obj, index) => {
       obj.value = (index + 1) * 100;
+      obj["isChecked"] = false;
+      obj["isTrue"] = null;
       return obj;
     });
   const categories2 = arr
     .filter((obj) => obj.category_id === 2)
     .map((obj, index) => {
       obj.value = (index + 1) * 100;
+      obj["isChecked"] = false;
+      obj["isTrue"] = null;
       return obj;
     });
   const categories3 = arr
     .filter((obj) => obj.category_id === 3)
     .map((obj, index) => {
       obj.value = (index + 1) * 100;
+      obj["isChecked"] = false;
+      obj["isTrue"] = null;
       return obj;
     });
   const categories4 = arr
     .filter((obj) => obj.category_id === 4)
     .map((obj, index) => {
       obj.value = (index + 1) * 100;
+      obj["isChecked"] = false;
+      obj["isTrue"] = null;
       return obj;
     });
   const categories5 = arr
     .filter((obj) => obj.category_id === 7)
     .map((obj, index) => {
       obj.value = (index + 1) * 100;
+      obj["isChecked"] = false;
+      obj["isTrue"] = null;
       return obj;
     });
 
